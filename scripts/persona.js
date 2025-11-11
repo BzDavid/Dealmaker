@@ -15,6 +15,7 @@ class Persona extends GameObject {
     this.vision = Math.random() * 200 + 1300;
     this.velocidad = { x: Math.random() * 10, y: Math.random() * 10 };
     this.aceleracion = { x: 0, y: 0 };
+    this.cambiarAnimacion("caminarAbajo");
   }
 
   obtenerOtraPersona() {
@@ -173,5 +174,9 @@ class Persona extends GameObject {
 
   limitarVelocidad() {
     this.velocidad = limitarVector(this.velocidad, this.velocidadMaxima);
+  }
+
+  asignarTarget(quien) {
+    this.target = quien;
   }
 }

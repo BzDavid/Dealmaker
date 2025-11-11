@@ -1,8 +1,10 @@
 class Juego {
   pixiApp;
+  tiendas = [];
   personas = [];
   anchoPantalla = 1280;
   altoPantalla = 720;
+  fondo;
 
   constructor() {
     this.mouse = { posicion: { x: 0, y: 0 } };
@@ -31,7 +33,8 @@ class Juego {
     document.body.appendChild(this.pixiApp.canvas); //agregamos el elementos canvas creado por pixi en el documento html
 
     // const texture = await PIXI.Assets.load("bunny.png"); //cargamos la imagen bunny.png y la guardamos en la variable texture (deprecated, ahora lo tengo como ejemplo nomás)
-
+    this.fondo = await this.crearTexturaDeFondo();
+    this.fondo.render(this.anchoPantalla * 0.5, this.altoPantalla, -100);
     this.crear_Personajes(30);
 
     //agregamos el metodo this.gameLoop al ticker.
@@ -39,8 +42,6 @@ class Juego {
     this.pixiApp.ticker.add(this.gameLoop.bind(this));
 
     this.ejecutarCodigoDespuesDeIniciarPIXI();
-
-    console.log(this.personas);
   }
 
   //Configuraciones de pixi --------
@@ -53,8 +54,16 @@ class Juego {
     return unaTextura;
   }
 
+  async crearTexturaDeFondo() {
+    const textura = await this.cargarTexturas("img/fondo.json");
+    const x = 0.5 * this.anchoPantalla;
+    const y = 0.5 * this.altoPantalla;
+    const juego = this;
+    return new objetoEstatico(textura, x, y, juego);
+  }
+
   async crear_Personajes(numeroDePersonas) {
-    const textura = await this.cargarTexturas("img/personaje.json");
+    const textura = await this.cargarTexturas("img/SpritesPersonajes/Hombre/Amarillo/mAmarillo.json");
     const x = 0.5 * this.anchoPantalla;
     const y = 0.5 * this.altoPantalla;
     const juego = this;
@@ -90,6 +99,7 @@ class Juego {
       unaPersona.tick();
       unaPersona.render();
     }
+    
   }
 
   getPersonaRandom() {
@@ -105,7 +115,6 @@ class Juego {
   asignarElMouseComoTargetATodosLasPersonas() {
     for (let persona of this.personas) {
       persona.asignarTarget(this.mouse);
-      console.log("Asignao");
     }
   }
 

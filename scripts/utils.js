@@ -22,3 +22,5 @@ function limitarVector(vector, magnitudMaxima) {
   // Si ya está dentro del límite, se devuelve igual
   return { ...vector };
 }
+
+//performance.memory.totalJSHeapSize/(1024**2); //tamaño de memoria usada en MB

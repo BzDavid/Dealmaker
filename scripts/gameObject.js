@@ -16,7 +16,6 @@ class GameObject {
     this.juego = juegoEnElQueEstoy; //guarda una referencia a la instancia del juego
     this.id = Math.floor(Math.random() * 99999999); //generamos un ID para este gameObject
     this.cargarSpritesAnimados(JSONdeTextura); //Tomo como parametro la textura y creo un sprite
-    this.cambiarAnimacion("caminarAbajo");
     this.juego.pixiApp.stage.addChild(this.container); //Se añade el container (es decir, el contenedor de pixi que contiene las animaciones) al escenario
   }
 
@@ -29,9 +28,8 @@ class GameObject {
       this.spritesAnimados[llave].play();
       this.spritesAnimados[llave].loop = true;
       this.spritesAnimados[llave].animationSpeed = 0.1;
-      this.spritesAnimados[llave].scale.set(2);
-      this.spritesAnimados[llave].anchor.set(0.5, 1); //establezco el punto de pivot en el medio
-
+      //this.spritesAnimados[llave].scale.set(1);
+      this.spritesAnimados[llave].anchor.set(0.5, 1); //establezco el punto de pivot en el medio (0.5, 1)
       this.container.addChild(this.spritesAnimados[llave]);
     }
   }
@@ -71,12 +69,12 @@ class GameObject {
     //270 abajo
 
     if ((this.angulo > 315 && this.angulo < 360) || this.angulo < 45) {
-      this.cambiarAnimacion("caminarDerecha");
-      this.spritesAnimados.caminarDerecha.scale.x = -2;
+      this.cambiarAnimacion("caminarIzquierda");
+      //this.spritesAnimados.caminarDerecha.scale.x = -2;
     } 
     else if (this.angulo > 135 && this.angulo < 225) {
       this.cambiarAnimacion("caminarDerecha");
-      this.spritesAnimados.caminarDerecha.scale.x = 2;
+      //this.spritesAnimados.caminarDerecha.scale.x = 1;
     } 
     else if (this.angulo < 135 && this.angulo > 45) {
       this.cambiarAnimacion("caminarArriba");
@@ -105,10 +103,6 @@ class GameObject {
     if (this.posicion.y > this.juego.height || this.posicion.y < 0) {
       this.velocidad.y *= -0.99;
     }
-  }
-
-  asignarTarget(quien) {
-    this.target = quien;
   }
 
   asignarVelocidad(x, y) {
