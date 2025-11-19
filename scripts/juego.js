@@ -1,6 +1,6 @@
 class Juego {
   pixiApp;
-  tiendas = [];
+  tiendas = {};
   personas = [];
   anchoPantalla = 1280;
   altoPantalla = 720;
@@ -35,7 +35,7 @@ class Juego {
     // const texture = await PIXI.Assets.load("bunny.png"); //cargamos la imagen bunny.png y la guardamos en la variable texture (deprecated, ahora lo tengo como ejemplo nomás)
     this.fondo = await this.crearTexturaDeFondo();
     this.fondo.render(this.anchoPantalla * 0.5, this.altoPantalla, -100);
-    this.crear_Personajes(30);
+    this.crear_PersonasCompradoras(100);
 
     //agregamos el metodo this.gameLoop al ticker.
     //es decir: en cada frame vamos a ejecutar el metodo this.gameLoop
@@ -54,24 +54,45 @@ class Juego {
     return unaTextura;
   }
 
+  crearUnaTienda(JSONdeTextura, xIncial, yIncial, juegoEnElQueEstoy, valorTiempo, valorCalidad, valorDinero) {
+    return new Tienda(JSONdeTextura, xIncial, yIncial, juegoEnElQueEstoy, valorTiempo, valorCalidad, valorDinero);
+  }
+
+  crearTiendas() {
+    this.tiendas["TiendaDelJugador"] = this.crearUnaTienda();
+    this.tiendas["TiendaRoja"] = this.crearUnaTienda();
+    this.tiendas["TiendaAmarilla"] = this.crearUnaTienda();
+    this.tiendas["TiendaVerde"] = this.crearUnaTienda();
+  }
+
   async crearTexturaDeFondo() {
-    const textura = await this.cargarTexturas("img/fondo.json");
+    const textura = await this.cargarTexturas("img/Tiendas/fondo.json");
     const x = 0.5 * this.anchoPantalla;
     const y = 0.5 * this.altoPantalla;
     const juego = this;
     return new objetoEstatico(textura, x, y, juego);
   }
 
-  async crear_Personajes(numeroDePersonas) {
-    const textura = await this.cargarTexturas("img/SpritesPersonajes/Hombre/Amarillo/mAmarillo.json");
+  async crear_PersonasCompradoras(numeroDePersonas) {
+    for (let i = 0; i < numeroDePersonas; i++) {
+      const nuevaPersona = await this.crearPersonaComprador();
+      this.personas.push(nuevaPersona);
+      console.log("PersonaComprador creada");
+    }
+    this.asignarEventosAPersonas();
+    console.log("Creadas todas las PersonasCompradoras");
+  }
+
+  async crearPersonaComprador() {
+    //Crea una instancia de clase que elijamos, el constructor de dicha clase toma como parametros la textura q queremos usar, X, Y y una referencia a la instancia del juego (la que sería this ya que estamos dentro de la clase Juego)
+    const importanciaCalidad = randomEntreUnoyDiez();
+    const importanciaDinero = randomEntreUnoyDiez();
+    const importanciaTiempo = randomEntreUnoyDiez();
+    const textura = await this.cargarTexturas(seleccionarColorDelPersonaje(indiceDelElementoMasGrandeDelArray([importanciaCalidad, importanciaDinero, importanciaTiempo])));
     const x = 0.5 * this.anchoPantalla;
     const y = 0.5 * this.altoPantalla;
     const juego = this;
-    for (let i = 0; i < numeroDePersonas; i++) {
-      //Crea una instancia de clase que elijamos, el constructor de dicha clase toma como parametros la textura q queremos usar, X, Y y una referencia a la instancia del juego (la que sería this ya que estamos dentro de la clase Juego)
-      this.personas.push(new Persona(textura, x, y, juego));
-    }
-    this.asignarEventosAPersonas();
+    return new PersonaComprador(textura, x, y, juego, importanciaTiempo, importanciaDinero, importanciaCalidad);;
   }
 
   ejecutarCodigoDespuesDeIniciarPIXI() {
@@ -113,8 +134,8 @@ class Juego {
   }
 
   asignarElMouseComoTargetATodosLasPersonas() {
-    for (let persona of this.personas) {
-      persona.asignarTarget(this.mouse);
+    for (let personaje of this.personas) {
+      personaje.asignarTarget(this.mouse);
     }
   }
 
@@ -127,5 +148,9 @@ class Juego {
     for (let cone of this.personas) {
       cone.perseguidor = this.mouse;
     }
+  }
+
+  eliminarPersona(indiceDeLaPersona) {
+    this.personas.pop(indiceDeLaPersona);
   }
 }

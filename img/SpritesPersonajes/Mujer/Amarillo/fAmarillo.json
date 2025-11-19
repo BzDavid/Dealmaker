@@ -406,7 +406,7 @@
       "29.png",
 	  "30.png"
     ],
-    "caminarDerecha": [
+    "caminarIzquierda": [
       "12.png",
       "13.png",
 	  "14.png",
@@ -416,7 +416,7 @@
 	  "18.png",
       "20.png"
     ],
-	"caminarIzquierda": [
+	"caminarDerecha": [
       "34.png",
       "35.png",
 	  "36.png",
@@ -460,10 +460,11 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.1",
-	"image": "amarillo.png",
+	"image": "fAmarillo.png",
 	"format": "RGBA8888",
 	"size": {"w":128,"h":1408},
-	"scale": "1",
+	"scale": "2",
 	"smartupdate": "$TexturePacker:SmartUpdate:3e3b199e4a6c292f81618972557024ca:c059a84a2f669fced2f8d5368d8ff0ee:d13905f22e59e36dd35abe9b7275cafa$"
 }
 }
+

@@ -421,7 +421,7 @@
 	"image": "mRojo.png",
 	"format": "RGBA8888",
 	"size": {"w":128,"h":1408},
-	"scale": "1",
+	"scale": "2",
 	"smartupdate": "$TexturePacker:SmartUpdate:68e70806f1ff1bc3d867917b57f134ce:1739f428b478a4f84e7760dc0fccb57e:916404a4e6102dc99ee6a937eae80af8$"
 }
 }

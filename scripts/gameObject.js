@@ -28,7 +28,7 @@ class GameObject {
       this.spritesAnimados[llave].play();
       this.spritesAnimados[llave].loop = true;
       this.spritesAnimados[llave].animationSpeed = 0.1;
-      //this.spritesAnimados[llave].scale.set(1);
+      //this.spritesAnimados[llave].scale.set(0.5);
       this.spritesAnimados[llave].anchor.set(0.5, 1); //establezco el punto de pivot en el medio (0.5, 1)
       this.container.addChild(this.spritesAnimados[llave]);
     }

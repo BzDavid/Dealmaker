@@ -362,7 +362,7 @@
       "29.png",
 	  "30.png"
     ],
-    "caminarDerecha": [
+    "caminarIzquierda": [
       "12.png",
       "13.png",
 	  "14.png",
@@ -372,7 +372,7 @@
 	  "18.png",
       "20.png"
     ],
-	"caminarIzquierda": [
+	"caminarDerecha": [
       "34.png",
       "35.png",
 	  "36.png",
@@ -419,7 +419,7 @@
 	"image": "fBlanco.png",
 	"format": "RGBA8888",
 	"size": {"w":128,"h":1408},
-	"scale": "1",
+	"scale": "2",
 	"smartupdate": "$TexturePacker:SmartUpdate:80dd63ea4028c9a499e59d41148f8f09:74fc99cc0a7a150900cf6fc28266425a:78a81e4d8fffcddc21da5fe2a2d95ac6$"
 }
 }

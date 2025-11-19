@@ -421,7 +421,7 @@
 	"image": "mVerde.png",
 	"format": "RGBA8888",
 	"size": {"w":128,"h":1408},
-	"scale": "1",
+	"scale": "2",
 	"smartupdate": "$TexturePacker:SmartUpdate:51e510bd532e759c124d4a8a55182996:a67cf89b8d3a5dc2478259a92995c615:193280a5fe0cfca89bb708af5c50a052$"
 }
 }

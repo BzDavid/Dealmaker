@@ -362,7 +362,7 @@
       "29.png",
 	  "30.png"
     ],
-    "caminarDerecha": [
+    "caminarIzquierda": [
       "12.png",
       "13.png",
 	  "14.png",
@@ -372,7 +372,7 @@
 	  "18.png",
       "20.png"
     ],
-	"caminarIzquierda": [
+	"caminarDerecha": [
       "34.png",
       "35.png",
 	  "36.png",
@@ -419,7 +419,7 @@
 	"image": "fRojo.png",
 	"format": "RGBA8888",
 	"size": {"w":128,"h":1408},
-	"scale": "1",
+	"scale": "2",
 	"smartupdate": "$TexturePacker:SmartUpdate:9df7df96eab37fbbd4242f4a80b68d0c:b99ee0f717d24dba622ca2856b2f6953:e7ad322ef4ee6f24c8c0a467e70c2308$"
 }
 }

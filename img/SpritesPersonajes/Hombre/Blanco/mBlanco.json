@@ -421,7 +421,7 @@
 	"image": "mBlanco.png",
 	"format": "RGBA8888",
 	"size": {"w":128,"h":1408},
-	"scale": "1",
+	"scale": "2",
 	"smartupdate": "$TexturePacker:SmartUpdate:62be5f82f76cdc5cb9407974392fef1b:eda65290fe676a7ae66028a9b3b59708:6bc0c57ffa6b4e91f3fe1f7cd749079c$"
 }
 }

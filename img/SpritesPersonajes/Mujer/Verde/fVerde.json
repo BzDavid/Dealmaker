@@ -362,7 +362,7 @@
       "29.png",
 	  "30.png"
     ],
-    "caminarDerecha": [
+    "caminarIzquierda": [
       "12.png",
       "13.png",
 	  "14.png",
@@ -372,7 +372,7 @@
 	  "18.png",
       "20.png"
     ],
-	"caminarIzquierda": [
+	"caminarDerecha": [
       "34.png",
       "35.png",
 	  "36.png",
@@ -419,7 +419,7 @@
 	"image": "fVerde.png",
 	"format": "RGBA8888",
 	"size": {"w":128,"h":1408},
-	"scale": "1",
+	"scale": "2",
 	"smartupdate": "$TexturePacker:SmartUpdate:2afbff6a6841fc12634b07d323642993:dad95905c39f53c91c6550d87f3162a8:4f22cd86ed693a5c4ba11bca77cad228$"
 }
 }
