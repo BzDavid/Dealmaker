@@ -4,8 +4,8 @@ class PersonaComprador extends Persona {
     importanciaCalidad;
     puntajeDeTiendas = {};
 
-    constructor(JSONdeTextura, xIncial, yIncial, juegoEnElQueEstoy, importanciaTiempo, importanciaDinero, importanciaCalidad) {
-        super(JSONdeTextura, xIncial, yIncial, juegoEnElQueEstoy);
+    constructor(SprteSheetOBJ, xIncial, yIncial, juegoEnElQueEstoy, importanciaTiempo, importanciaDinero, importanciaCalidad) {
+        super(SprteSheetOBJ, xIncial, yIncial, juegoEnElQueEstoy);
         this.setearImportancias(importanciaTiempo, importanciaDinero, importanciaCalidad)
     }
 

@@ -9,8 +9,8 @@ class Persona extends GameObject {
   target;
   perseguidor;
 
-  constructor(JSONdeTextura, xIncial, yIncial, juegoEnElQueEstoy) {
-    super(JSONdeTextura, xIncial, yIncial, juegoEnElQueEstoy);
+  constructor(SprteSheetOBJ, xIncial, yIncial, juegoEnElQueEstoy) {
+    super(SprteSheetOBJ, xIncial, yIncial, juegoEnElQueEstoy);
     this.container.name = "Contenedor de Persona";
     this.vision = Math.random() * 200 + 1300;
     this.velocidad = { x: Math.random() * 10, y: Math.random() * 10 };

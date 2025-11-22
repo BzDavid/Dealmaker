@@ -9,20 +9,27 @@ class GameObject {
   angulo = 180;
   velocidadLineal;
 
-  constructor(JSONdeTextura, xIncial, yIncial, juegoEnElQueEstoy) {
+  constructor(SprteSheetOBJ, xIncial, yIncial, juegoEnElQueEstoy) {
+    //console.log(xIncial, "Si esta desempaquetado");
     this.container = new PIXI.Container();
     this.container.name = "Contenedor de GameObject";
     this.posicion = { x: xIncial, y: yIncial };
     this.juego = juegoEnElQueEstoy; //guarda una referencia a la instancia del juego
     this.id = Math.floor(Math.random() * 99999999); //generamos un ID para este gameObject
-    this.cargarSpritesAnimados(JSONdeTextura); //Tomo como parametro la textura y creo un sprite
+    this.cargarSpritesAnimados(SprteSheetOBJ); //Tomo como parametro la textura y creo un sprite
     this.juego.pixiApp.stage.addChild(this.container); //Se añade el container (es decir, el contenedor de pixi que contiene las animaciones) al escenario
   }
 
-  cargarSpritesAnimados(JSONdeTextura) {
-    for (let llave of Object.keys(JSONdeTextura.animations)) {
+  eliminarDeEscena() {
+    this.juego.pixiApp.stage.removeChild(this.container);
+    this.container = new PIXI.Container();
+  }
+
+  cargarSpritesAnimados(SprteSheetOBJ) {
+    //console.log("desde aca, en el cargador de sprites me dan ", SprteSheetOBJ); 
+    for (let llave of Object.keys(SprteSheetOBJ.animations)) {
       this.spritesAnimados[llave] = new PIXI.AnimatedSprite(
-        JSONdeTextura.animations[llave]
+        SprteSheetOBJ.animations[llave]
       );
 
       this.spritesAnimados[llave].play();
@@ -126,5 +133,9 @@ class GameObject {
       this.spritesAnimados[key].animationSpeed =
         this.velocidadLineal * 0.05 * this.juego.pixiApp.ticker.deltaTime;
     }
+  }
+
+  getID() {
+    return this.id;
   }
 }

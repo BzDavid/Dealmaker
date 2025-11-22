@@ -47,19 +47,23 @@ function randomEntreCeroYUno() {
   }
 }
 
-function seleccionarColorDelPersonaje(numeroDelColor) {
-  /*
-  Selecciona un sprite de personaje basado en el número del color proporcionado.
-  Parámetros:
-    - numeroDelColor: Un entero que representa el color del personaje (0, 1 o 2).
-  Precondiciones: numeroDelColor debe ser 0, 1 o 2; 0 para amarillo, 1 para rojo, 2 para verde.
-  */
-  let listaDeSprites = [
-    ["img/SpritesPersonajes/Hombre/Amarillo/mAmarillo.json", "img/SpritesPersonajes/Mujer/Amarillo/fAmarillo.json"],
-    ["img/SpritesPersonajes/Hombre/Rojo/mRojo.json", "img/SpritesPersonajes/Mujer/Rojo/fRojo.json"],
-    ["img/SpritesPersonajes/Hombre/Verde/mVerde.json", "img/SpritesPersonajes/Mujer/Verde/fVerde.json"]
-  ];
-  return listaDeSprites[numeroDelColor][randomEntreCeroYUno()];
+function diccionarioDeTexturas () {
+  return {
+    mAmarillo: "img/SpritesPersonajes/Hombre/Amarillo/mAmarillo.json",
+    mRojo: "img/SpritesPersonajes/Hombre/Rojo/mRojo.json",
+    mVerde: "img/SpritesPersonajes/Hombre/Verde/mVerde.json",
+    fAmarillo: "img/SpritesPersonajes/Mujer/Amarillo/fAmarillo.json",
+    fRojo: "img/SpritesPersonajes/Mujer/Rojo/fRojo.json",
+    fVerde: "img/SpritesPersonajes/Mujer/Verde/fVerde.json"
+  };
+}
+
+function devolverNombreDelColor(numeroDelColor){
+  let listaDeNombresDeColores = [
+    ["mAmarillo", "fAmarillo"], 
+    ["mRojo", "fRojo"], 
+    ["mVerde", "fVerde"]];
+  return listaDeNombresDeColores[numeroDelColor][randomEntreCeroYUno()];
 }
 
 function indiceDelElementoMasGrandeDelArray(array) {

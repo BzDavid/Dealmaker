@@ -5,6 +5,8 @@ class Juego {
   anchoPantalla = 1280;
   altoPantalla = 720;
   fondo;
+  spritesAnimados = {};
+  mouse = {};
 
   constructor() {
     this.mouse = { posicion: { x: 0, y: 0 } };
@@ -14,9 +16,7 @@ class Juego {
   //async indica q este metodo es asincrónico, es decir q debe usar "await".
   async inciarPixi() {
     this.pixiApp = new PIXI.Application(); //creamos la aplicacion de pixi y la guardamos en la propiedad pixiApp
-
     this.renombrarEscenario("El Stage");
-
     globalThis.__PIXI_APP__ = this.pixiApp; //esto es para que funcione la extension de pixi
 
     const opcionesDePixi = {
@@ -33,15 +33,18 @@ class Juego {
     document.body.appendChild(this.pixiApp.canvas); //agregamos el elementos canvas creado por pixi en el documento html
 
     // const texture = await PIXI.Assets.load("bunny.png"); //cargamos la imagen bunny.png y la guardamos en la variable texture (deprecated, ahora lo tengo como ejemplo nomás)
-    this.fondo = await this.crearTexturaDeFondo();
-    this.fondo.render(this.anchoPantalla * 0.5, this.altoPantalla, -100);
+    await this.ejecutarCodigoDespuesDeIniciarPIXI();
+  }
+  
+  async ejecutarCodigoDespuesDeIniciarPIXI() {
+    this.crearTexturaDeFondo();
+    this.crearTiendas();
+    await this.cargarTodasLasTexturas(diccionarioDeTexturas());
     this.crear_PersonasCompradoras(100);
-
     //agregamos el metodo this.gameLoop al ticker.
     //es decir: en cada frame vamos a ejecutar el metodo this.gameLoop
     this.pixiApp.ticker.add(this.gameLoop.bind(this));
-
-    this.ejecutarCodigoDespuesDeIniciarPIXI();
+    this.agregarInteractividadDelMouse();
   }
 
   //Configuraciones de pixi --------
@@ -54,33 +57,110 @@ class Juego {
     return unaTextura;
   }
 
-  crearUnaTienda(JSONdeTextura, xIncial, yIncial, juegoEnElQueEstoy, valorTiempo, valorCalidad, valorDinero) {
-    return new Tienda(JSONdeTextura, xIncial, yIncial, juegoEnElQueEstoy, valorTiempo, valorCalidad, valorDinero);
+  async cargarTodasLasTexturas(diccionarioDeTexturas) {
+    for (let nombreAnimacion of Object.keys(diccionarioDeTexturas)) {
+      this.spritesAnimados[nombreAnimacion] = await this.cargarTexturas(diccionarioDeTexturas[nombreAnimacion]);
+    }
   }
 
-  crearTiendas() {
-    this.tiendas["TiendaDelJugador"] = this.crearUnaTienda();
-    this.tiendas["TiendaRoja"] = this.crearUnaTienda();
-    this.tiendas["TiendaAmarilla"] = this.crearUnaTienda();
-    this.tiendas["TiendaVerde"] = this.crearUnaTienda();
+  //Cierra configuraciones de pixi -----------------------
+
+  //Agregar elementos ------------------------------------
+  async crearTiendas() {
+    await this.crearTiendaRoja();
+    await this.crearTiendaVerde();
+    await this.crearTiendaAmarilla();
+    await this.crearTiendaDelJugador();
+  }
+
+  async crearTiendaDelJugador() {
+    const texturaTienda = await this.cargarTexturas("img/Tiendas/tiendaJugador.json");
+    const xInicial = 0.8 * this.anchoPantalla; //1280
+    const yInicial = 0.85 * this.altoPantalla; //720
+    const zInicial = -20;
+    const valorTiempo = 6;
+    const valorCalidad = 2;
+    const valorDinero = 3;
+
+    this.tiendas["TiendaJugador"] = this.crearUnaTienda(texturaTienda, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero);
+    this.tiendas["TiendaJugador"].spritesAnimados["tiendaJugador"].anchor.set(0.5, 0.5);
+    this.tiendas["TiendaJugador"].spritesAnimados["tiendaJugador"].scale.set(0.4);
+  }
+
+  async crearTiendaAmarilla() {
+    const texturaTienda = await this.cargarTexturas("img/Tiendas/tiendaAmarilla.json");
+    const xInicial = 0.6 * this.anchoPantalla; //1280
+    const yInicial = 0.85 * this.altoPantalla; //720
+    const zInicial = -20;
+    const valorTiempo = 6;
+    const valorCalidad = 2;
+    const valorDinero = 3;
+
+    this.tiendas["TiendaAmarilla"] = this.crearUnaTienda(texturaTienda, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero);
+    this.tiendas["TiendaAmarilla"].spritesAnimados["tiendaAmarilla"].anchor.set(0.5, 0.5);
+    this.tiendas["TiendaAmarilla"].spritesAnimados["tiendaAmarilla"].scale.set(0.4);
+  }
+
+  async crearTiendaVerde() {
+    const texturaTienda = await this.cargarTexturas("img/Tiendas/tiendaVerde.json");
+    const xInicial = 0.4 * this.anchoPantalla; //1280
+    const yInicial = 0.85 * this.altoPantalla; //720
+    const zInicial = -20;
+    const valorTiempo = 6;
+    const valorCalidad = 2;
+    const valorDinero = 3;
+
+    this.tiendas["TiendaVerde"] = this.crearUnaTienda(texturaTienda, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero);
+    this.tiendas["TiendaVerde"].spritesAnimados["tiendaVerde"].anchor.set(0.5, 0.5);
+    this.tiendas["TiendaVerde"].spritesAnimados["tiendaVerde"].scale.set(0.4);
+  }
+
+  async crearTiendaRoja() {
+    const texturaTienda = await this.cargarTexturas("img/Tiendas/tiendaRoja.json");
+    const xInicial = 0.2 * this.anchoPantalla; //1280
+    const yInicial = 0.85 * this.altoPantalla; //720
+    const zInicial = -20;
+    const valorTiempo = 6;
+    const valorCalidad = 2;
+    const valorDinero = 3;
+
+    this.tiendas["TiendaRoja"] = this.crearUnaTienda(texturaTienda, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero);
+    this.tiendas["TiendaRoja"].spritesAnimados["tiendaRoja"].anchor.set(0.5, 0.5);
+    this.tiendas["TiendaRoja"].spritesAnimados["tiendaRoja"].scale.set(0.4);
+  }
+
+  async 
+
+  crearUnaTienda(SprteSheetOBJ, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero) {
+      return new Tienda(SprteSheetOBJ, xInicial, yInicial, zInicial, this, valorTiempo, valorCalidad, valorDinero);
   }
 
   async crearTexturaDeFondo() {
-    const textura = await this.cargarTexturas("img/Tiendas/fondo.json");
-    const x = 0.5 * this.anchoPantalla;
-    const y = 0.5 * this.altoPantalla;
-    const juego = this;
-    return new objetoEstatico(textura, x, y, juego);
+    const texturaFondo = await this.cargarTexturas("img/Tiendas/fondo.json")
+    const xInicial = 0.5 * this.anchoPantalla;
+    const yInicial = 0.5 * this.altoPantalla;
+    const zInicial = -100;
+    this.fondo = await this.crearObjetoEstatico(
+      texturaFondo,
+      xInicial,
+      yInicial,
+      zInicial
+    );
+    this.fondo.spritesAnimados["imagen"].anchor.set(0.5, 0.5);
+  }
+
+  async crearObjetoEstatico(textura, xIncial, yIncial, zInicial) {
+    return new objetoEstatico(textura, xIncial, yIncial, zInicial, this);
   }
 
   async crear_PersonasCompradoras(numeroDePersonas) {
     for (let i = 0; i < numeroDePersonas; i++) {
       const nuevaPersona = await this.crearPersonaComprador();
       this.personas.push(nuevaPersona);
-      console.log("PersonaComprador creada");
+      //console.log("PersonaComprador creada");
     }
     this.asignarEventosAPersonas();
-    console.log("Creadas todas las PersonasCompradoras");
+    //console.log("Creadas todas las PersonasCompradoras");
   }
 
   async crearPersonaComprador() {
@@ -88,18 +168,27 @@ class Juego {
     const importanciaCalidad = randomEntreUnoyDiez();
     const importanciaDinero = randomEntreUnoyDiez();
     const importanciaTiempo = randomEntreUnoyDiez();
-    const textura = await this.cargarTexturas(seleccionarColorDelPersonaje(indiceDelElementoMasGrandeDelArray([importanciaCalidad, importanciaDinero, importanciaTiempo])));
-    const x = 0.5 * this.anchoPantalla;
-    const y = 0.5 * this.altoPantalla;
-    const juego = this;
-    return new PersonaComprador(textura, x, y, juego, importanciaTiempo, importanciaDinero, importanciaCalidad);;
+    const textura = await this.spritesAnimados[
+      devolverNombreDelColor(
+        indiceDelElementoMasGrandeDelArray(
+          [importanciaCalidad, importanciaDinero, importanciaTiempo]
+        )
+      )
+    ]
+    const xIncial = 0.5 * this.anchoPantalla;
+    const yIncial = 0.5 * this.altoPantalla;
+    const juegoEnElQueEstoy = this;
+    return new PersonaComprador(
+      textura,
+      xIncial,
+      yIncial,
+      juegoEnElQueEstoy,
+      importanciaTiempo,
+      importanciaDinero,
+      importanciaCalidad
+    );
   }
-
-  ejecutarCodigoDespuesDeIniciarPIXI() {
-    this.agregarInteractividadDelMouse();
-  }
-
-  //Cierra configuraciones de pixi --------
+  //Cierra agregar elementos -----------------------------
 
   asignarEventosAPersonas(){
     this.asignarElMouseComoTargetATodosLasPersonas()
@@ -112,15 +201,6 @@ class Juego {
     this.pixiApp.canvas.onmousemove = (event) => {
       this.mouse.posicion = { x: event.x, y: event.y };
     };
-  }
-
-  gameLoop(time) {
-    for (let unaPersona of this.personas) {
-      //ejecutamos el metodo tick de persona
-      unaPersona.tick();
-      unaPersona.render();
-    }
-    
   }
 
   getPersonaRandom() {
@@ -144,6 +224,7 @@ class Juego {
       cone.perseguidor = this.getPersonaRandom();
     }
   }
+
   asignarElMouseComoPerseguidorATodosLasPersonas() {
     for (let cone of this.personas) {
       cone.perseguidor = this.mouse;
@@ -151,6 +232,18 @@ class Juego {
   }
 
   eliminarPersona(indiceDeLaPersona) {
+    const laPersona = this.personas[indiceDeLaPersona]
     this.personas.pop(indiceDeLaPersona);
+    console.log(laPersona.getID())
+    laPersona.eliminarDeEscena();
+  }
+  
+  gameLoop(time) {
+    for (let unaPersona of this.personas) {
+      //ejecutamos el metodo tick de persona
+      unaPersona.tick();
+      unaPersona.render();
+    }
+    
   }
 }
