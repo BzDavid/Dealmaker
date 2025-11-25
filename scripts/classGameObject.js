@@ -121,7 +121,8 @@ class GameObject {
     this.container.x = this.posicion.x;
     this.container.y = this.posicion.y;
 
-    this.container.zIndex = this.posicion.y;
+    //this.container.zIndex = this.posicion.y;
+    this.container.zIndex = -30
 
     this.cambiarDeSpriteAnimadoSegunAngulo();
     this.cambiarVelocidadDeAnimacionSegunVelocidadLineal();

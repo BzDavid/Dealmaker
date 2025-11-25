@@ -179,4 +179,5 @@ class Persona extends GameObject {
   asignarTarget(quien) {
     this.target = quien;
   }
+
 }

@@ -10,7 +10,7 @@ class Tienda extends objetoEstatico {
         this.valorCalidad = valorCalidad;
         this.valorDinero = valorDinero;
         this.render(xInicial, yInicial, zInicial)
-        console.log("Construida la tienda")
+        //console.log("Construida la tienda")
     }
 
 }

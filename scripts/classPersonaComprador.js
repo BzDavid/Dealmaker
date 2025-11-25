@@ -7,6 +7,7 @@ class PersonaComprador extends Persona {
     constructor(SprteSheetOBJ, xIncial, yIncial, juegoEnElQueEstoy, importanciaTiempo, importanciaDinero, importanciaCalidad) {
         super(SprteSheetOBJ, xIncial, yIncial, juegoEnElQueEstoy);
         this.setearImportancias(importanciaTiempo, importanciaDinero, importanciaCalidad)
+        //this.asignarTarget()
     }
 
     tiendas() {
@@ -36,7 +37,7 @@ class PersonaComprador extends Persona {
         return;
     }
 
-    juzgarTodasLastiendas(listaDeTiendas) {
+    juzgarTodasLastiendas() {
         for (let tienda of Object.keys(this.tiendas())){
             this.puntajeDeTiendas[tienda] = this.juzgarTienda(this.tiendas()[tienda]);
         }
@@ -57,5 +58,4 @@ class PersonaComprador extends Persona {
             return valorPorPersonalidad * (valorDeTienda - valorPorPersonalidad);
         }
     }
-
 }

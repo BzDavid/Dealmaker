@@ -7,6 +7,8 @@ class Juego {
   fondo;
   spritesAnimados = {};
   mouse = {};
+  contador = 0;
+  contadorGameLoop = 0
 
   constructor() {
     this.mouse = { posicion: { x: 0, y: 0 } };
@@ -34,6 +36,7 @@ class Juego {
 
     // const texture = await PIXI.Assets.load("bunny.png"); //cargamos la imagen bunny.png y la guardamos en la variable texture (deprecated, ahora lo tengo como ejemplo nomás)
     await this.ejecutarCodigoDespuesDeIniciarPIXI();
+    //si se quiere añadir algo, agregarlo a este método
   }
   
   async ejecutarCodigoDespuesDeIniciarPIXI() {
@@ -43,7 +46,8 @@ class Juego {
     this.crear_PersonasCompradoras(100);
     //agregamos el metodo this.gameLoop al ticker.
     //es decir: en cada frame vamos a ejecutar el metodo this.gameLoop
-    this.pixiApp.ticker.add(this.gameLoop.bind(this));
+    this.gameLoopBind = this.gameLoop.bind(this)
+    this.pixiApp.ticker.add(this.gameLoopBind);
     this.agregarInteractividadDelMouse();
   }
 
@@ -78,9 +82,9 @@ class Juego {
     const xInicial = 0.8 * this.anchoPantalla; //1280
     const yInicial = 0.85 * this.altoPantalla; //720
     const zInicial = -20;
-    const valorTiempo = 6;
-    const valorCalidad = 2;
-    const valorDinero = 3;
+    const valorTiempo = 5;
+    const valorCalidad = 5;
+    const valorDinero = 5;
 
     this.tiendas["TiendaJugador"] = this.crearUnaTienda(texturaTienda, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero);
     this.tiendas["TiendaJugador"].spritesAnimados["tiendaJugador"].anchor.set(0.5, 0.5);
@@ -92,9 +96,9 @@ class Juego {
     const xInicial = 0.6 * this.anchoPantalla; //1280
     const yInicial = 0.85 * this.altoPantalla; //720
     const zInicial = -20;
-    const valorTiempo = 6;
-    const valorCalidad = 2;
-    const valorDinero = 3;
+    const valorTiempo = 5;
+    const valorCalidad = 8;
+    const valorDinero = 1;
 
     this.tiendas["TiendaAmarilla"] = this.crearUnaTienda(texturaTienda, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero);
     this.tiendas["TiendaAmarilla"].spritesAnimados["tiendaAmarilla"].anchor.set(0.5, 0.5);
@@ -106,9 +110,9 @@ class Juego {
     const xInicial = 0.4 * this.anchoPantalla; //1280
     const yInicial = 0.85 * this.altoPantalla; //720
     const zInicial = -20;
-    const valorTiempo = 6;
+    const valorTiempo = 5;
     const valorCalidad = 2;
-    const valorDinero = 3;
+    const valorDinero = 7;
 
     this.tiendas["TiendaVerde"] = this.crearUnaTienda(texturaTienda, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero);
     this.tiendas["TiendaVerde"].spritesAnimados["tiendaVerde"].anchor.set(0.5, 0.5);
@@ -120,16 +124,14 @@ class Juego {
     const xInicial = 0.2 * this.anchoPantalla; //1280
     const yInicial = 0.85 * this.altoPantalla; //720
     const zInicial = -20;
-    const valorTiempo = 6;
-    const valorCalidad = 2;
-    const valorDinero = 3;
+    const valorTiempo = 4;
+    const valorCalidad = 6;
+    const valorDinero = 4;
 
     this.tiendas["TiendaRoja"] = this.crearUnaTienda(texturaTienda, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero);
     this.tiendas["TiendaRoja"].spritesAnimados["tiendaRoja"].anchor.set(0.5, 0.5);
     this.tiendas["TiendaRoja"].spritesAnimados["tiendaRoja"].scale.set(0.4);
-  }
-
-  async 
+  } 
 
   crearUnaTienda(SprteSheetOBJ, xInicial, yInicial, zInicial, valorTiempo, valorCalidad, valorDinero) {
       return new Tienda(SprteSheetOBJ, xInicial, yInicial, zInicial, this, valorTiempo, valorCalidad, valorDinero);
@@ -239,11 +241,20 @@ class Juego {
   }
   
   gameLoop(time) {
+    this.contarUnSegundo(time);
     for (let unaPersona of this.personas) {
       //ejecutamos el metodo tick de persona
       unaPersona.tick();
       unaPersona.render();
+     
     }
-    
+  }
+
+  contarUnSegundo(time) {
+    this.contadorGameLoop += time * (1000/60)
+    if(this.contadorGameLoop >= 1000) {
+      this.contador += 1
+      this.contadorGameLoop = 0 
+    }
   }
 }
