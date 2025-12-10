@@ -43,7 +43,7 @@ class Juego {
     this.crearTexturaDeFondo();
     this.crearTiendas();
     await this.cargarTodasLasTexturas(diccionarioDeTexturas());
-    this.crear_PersonasCompradoras(100);
+    this.crear_PersonasCompradoras(5);
     //agregamos el metodo this.gameLoop al ticker.
     //es decir: en cada frame vamos a ejecutar el metodo this.gameLoop
     this.gameLoopBind = this.gameLoop.bind(this)
@@ -203,6 +203,10 @@ class Juego {
     this.pixiApp.canvas.onmousemove = (event) => {
       this.mouse.posicion = { x: event.x, y: event.y };
     };
+  }
+
+  eliminarInteractividadDelMouse() {
+    this.pixiApp.canvas.onmousemove = null;
   }
 
   getPersonaRandom() {

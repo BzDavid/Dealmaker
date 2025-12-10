@@ -8,6 +8,7 @@ class Persona extends GameObject {
   vision;
   target;
   perseguidor;
+  maquinaDeEstados;
 
   constructor(SprteSheetOBJ, xIncial, yIncial, juegoEnElQueEstoy) {
     super(SprteSheetOBJ, xIncial, yIncial, juegoEnElQueEstoy);
@@ -16,6 +17,7 @@ class Persona extends GameObject {
     this.velocidad = { x: Math.random() * 10, y: Math.random() * 10 };
     this.aceleracion = { x: 0, y: 0 };
     this.cambiarAnimacion("caminarAbajo");
+    this.asignarMaquinaDeEstados();
   }
 
   obtenerOtraPersona() {
@@ -180,4 +182,35 @@ class Persona extends GameObject {
     this.target = quien;
   }
 
+  asignarMaquinaDeEstados() {
+    this.maquinaDeEstados = {
+      estado: "Apagao",
+      transiciones: {
+        Apagao: {
+          irAlSiguienteEstado() {
+            this.estado = "Prendido";
+          },
+        },
+        Prendido: {
+          irAlSiguienteEstado() {
+            this.estado = "Mitimiti";
+          },
+        },
+        Mitimiti: {
+          irAlSiguienteEstado() {
+            this.estado = "Apagao";
+          },
+        },
+      },
+      accionar: function accionDelEstado(nombreDeLaAccion) {
+        const accion = this.transiciones[this.estado][nombreDeLaAccion];
+
+        if (accion /*si la accion existe...*/) {
+          accion.call(this);
+        } else {
+          console.log("no tengo esa accion...");
+        }
+      },
+    };
+  }
 }
